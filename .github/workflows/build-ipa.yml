@@ -61,6 +61,13 @@ jobs:
         run: |
           make TARGET=ios xcodeproj
 
+      - name: Generate Info.plist
+        run: |
+          VERSION="$(git describe --tags --always)"
+          sed "s|@VERSION@|${VERSION#v}|g" \
+            platform/ios/Info.plist.in \
+            > platform/ios/Info.plist
+
       - name: Archive iOS app
         run: |
           xcodebuild \
